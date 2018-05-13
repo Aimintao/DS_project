@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.core.dao.BrandDAO">
+
+	<select id="findByExample" parameterType="Brand" resultType="Brand">
+		SELECT
+		bbs_brand.id,
+		bbs_brand.`name`,
+		bbs_brand.description,
+		bbs_brand.img_url,
+		bbs_brand.web_site,
+		bbs_brand.sort,
+		bbs_brand.is_display
+		FROM
+		bbs_brand
+		<where>
+			<if test="name!=null">`name` like "%" #{name} "%"</if>
+			<if test="isDisplay!=null">and is_display = #{isDisplay}</if>
+		</where>
+	</select>
+
+	<select id="findById" resultType="Brand">
+		SELECT
+		bbs_brand.id,
+		bbs_brand.`name`,
+		bbs_brand.description,
+		bbs_brand.img_url,
+		bbs_brand.web_site,
+		bbs_brand.sort,
+		bbs_brand.is_display
+		FROM
+		bbs_brand
+		WHERE
+		id = #{id}
+	</select>
+
+	<update id="updateById" parameterType="Brand">
+		UPDATE
+		`babasport`.`bbs_brand`
+		<set>
+			<if test="name!=null">`name` = #{name},</if>
+			<if test="description!=null">`description` = #{description},</if>
+			<if test="imgUrl!=null">`img_url` = #{imgUrl},</if>
+			<if test="sort!=null">`sort` = #{sort},</if>
+			<if test="isDisplay!=null">`is_display` = #{isDisplay},</if>
+		</set>
+		WHERE
+		(`id` = #{id});
+	</update>
+	
+	<delete id="deleteByIds">
+		DELETE
+		FROM
+		bbs_brand
+		WHERE
+		id IN (${value});
+	</delete>
+
+</mapper>
